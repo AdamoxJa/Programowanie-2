@@ -7,18 +7,21 @@ using namespace std;
  int ConvertFromSymbolic(string Number)
  {
 	int z_numbers;
-    char record;
+    char record;   
 	int n_z=0;
 	string str="";
+	bool helper=false;
+	bool spr_1=false;
     int length=Number.length();
     char tab[length];
+	int length_1=str.length();
     for(int i=0;i<Number.length();i++)
     {
 
         record=Number.at(i);
         if(record=='.')
         {
-			int letter=0;
+			helper=true;
 		}
 		else
         {
@@ -29,7 +32,21 @@ using namespace std;
 			str = str + record;
 		}
     }
-	int length_1=str.length();
+    int spr=str.length();
+
+	if((tab[spr] != 'M')&&(tab[spr] != 'T')&&(tab[spr] != 'B')&&((tab[spr] != 'a')||(tab[spr-1]!='Q'))&&((tab[spr] != 'i')||(tab[spr-1]!='Q'))&&((tab[spr] != 'x')||(tab[spr-1]!='S'))&&((tab[spr] != 'p')||(tab[spr-1]!='S'))&&((tab[spr] != 'c')||(tab[spr-1]!='O')))
+    {
+    	if(helper==true) 
+		{
+			spr--;
+		}
+		else
+		{
+		spr_1=true;
+    	cout<<"Incorrect date !!!"<<endl;
+    	}
+	}
+	
 	while(1<length_1)
 	{
 		n_z++;
@@ -37,7 +54,11 @@ using namespace std;
 	} 
     
     for(int i=0;i<Number.length();i++)
-    {
+    {	
+    	if(spr_1==true)
+		{
+			break;
+		}
         if((int)tab[i]==77)
         {
 			z_numbers=6;
@@ -83,9 +104,16 @@ using namespace std;
 	
     for (int j = 0; j < z_numbers-n_z; j++)
     {
+    	if(spr_1==true)
+		{
+			break;
+		}
        score=score + "0";
     }
-	cout<<score;
+    if(spr_1!=true)
+	{
+		cout<<score;
+	}
 	
     /*
     M=77;
@@ -99,7 +127,9 @@ using namespace std;
     */
     
     cout<<endl;
-    return 0;
+    
+	return 0;
+    
  };
 
 int main() {
