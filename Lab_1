@@ -1,0 +1,111 @@
+#include <iostream>
+#include <sstream>
+
+
+using namespace std;
+
+ int ConvertFromSymbolic(string Number)
+ {
+	int z_numbers;
+    char record;
+	int n_z=0;
+	string str="";
+    int length=Number.length();
+    char tab[length];
+    for(int i=0;i<Number.length();i++)
+    {
+
+        record=Number.at(i);
+        if(record=='.')
+        {
+			int letter=0;
+		}
+		else
+        {
+            tab[i]=record;
+        }
+		if ((record == '0') || (record == '1') || (record == '2') || (record == '3') || (record == '4') || (record == '5') || (record == '6')|| (record == '7') || (record == '8') || (record == '9'))
+		{
+			str = str + record;
+		}
+    }
+	int length_1=str.length();
+	while(1<length_1)
+	{
+		n_z++;
+		length_1--;
+	} 
+    
+    for(int i=0;i<Number.length();i++)
+    {
+        if((int)tab[i]==77)
+        {
+			z_numbers=6;
+            break;
+        }
+        else if((int)tab[i]==66)
+        {
+			z_numbers=9;
+            break;
+        }
+        else if( (int)tab[i]==84)
+        {
+			z_numbers=12;
+            break;
+        }
+        else if(( ((int)tab[i]==81)&&((int)tab[i+1]==97)))
+        {
+			z_numbers=15;
+            break;
+        }
+        else if(( ((int)tab[i]==81)&&((int)tab[i+1]==105)))
+        {
+			z_numbers=18;
+            break;
+        }
+        else if(( ((int)tab[i]==83)&&((int)tab[i+1]==120)))
+        {
+			z_numbers=21;
+            break;
+        }
+        else if(( ((int)tab[i]==83)&&((int)tab[i+1]==112)))
+        {
+            z_numbers=24;
+            break;
+        }
+        else if(( ((int)tab[i]==79)&&((int)tab[i+1]==99)))
+        {
+			z_numbers=27;
+            break;
+        }
+    }
+	string score=str;
+	
+    for (int j = 0; j < z_numbers-n_z; j++)
+    {
+       score=score + "0";
+    }
+	cout<<score;
+	
+    /*
+    M=77;
+    B=66;
+    T=84;
+    Qa=8197;
+    Qi=81105;
+    Sx=83120;
+    Sp=83112;
+    Oc=7999;
+    */
+    
+    cout<<endl;
+    return 0;
+ };
+
+int main() {
+
+	cout<<ConvertFromSymbolic("4M")<<endl;
+	cout<<ConvertFromSymbolic("54T")<<endl;
+	cout<<ConvertFromSymbolic("5.434B")<<endl;
+    return 0;
+};
