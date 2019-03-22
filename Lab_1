@@ -4,49 +4,49 @@
 
 using namespace std;
 
-int ConvertFromSymbolic(string Number)
-{
-int z_numbers;
-char record;   
-int n_z=0;
-string str="";
-bool helper=false;
-bool spr_1=false;
-int length=Number.length();
-char tab[length];
-int length_1=str.length();
-
+ int ConvertFromSymbolic(string Number)
+ {
+	int z_numbers;
+    char record;   
+	int n_z=0;
+	string str="";
+	bool helper=false;
+	bool spr_1=false;
+    int length=Number.length();
+    char tab[length];
+	int length_1=str.length();
     for(int i=0;i<Number.length();i++)
     {
 
         record=Number.at(i);
         if(record=='.')
         {
-		helper=true;
-	}
-	else
+			helper=true;
+		}
+		else
         {
             tab[i]=record;
         }
-	if ((record == '0') || (record == '1') || (record == '2') || (record == '3') || (record == '4') || (record == '5') || (record == '6')|| (record == '7') || (record == '8') || (record == '9'))
-	{
-		str = str + record;
-	}
-    }
-int spr=str.length();
+		if (isdigit( record ))
+		{
+			str = str + record;
+		}
 
-if((tab[spr] != 'M')&&(tab[spr] != 'T')&&(tab[spr] != 'B')&&((tab[spr] != 'a')||(tab[spr-1]!='Q'))&&((tab[spr] != 'i')||(tab[spr-1]!='Q'))&&((tab[spr] != 'x')||(tab[spr-1]!='S'))&&((tab[spr] != 'p')||(tab[spr-1]!='S'))&&((tab[spr] != 'c')||(tab[spr-1]!='O')))
-{
+    }
+    int spr=str.length();
+
+	if((tab[spr] != 'M')&&(tab[spr] != 'T')&&(tab[spr] != 'B')&&((tab[spr] != 'a')||(tab[spr-1]!='Q'))&&((tab[spr] != 'i')||(tab[spr-1]!='Q'))&&((tab[spr] != 'x')||(tab[spr-1]!='S'))&&((tab[spr] != 'p')||(tab[spr-1]!='S'))&&((tab[spr] != 'c')||(tab[spr-1]!='O')))
+    {
     	if(helper==true) 
 		{
-		spr--;
+			spr--;
 		}
 		else
 		{
 		spr_1=true;
-    		cout<<"Incorrect date !!!"<<endl;
-    		}
-}
+    	cout<<"Incorrect date !!!"<<endl;
+    	}
+	}
 	
 	while(1<length_1)
 	{
@@ -54,89 +54,77 @@ if((tab[spr] != 'M')&&(tab[spr] != 'T')&&(tab[spr] != 'B')&&((tab[spr] != 'a')||
 		length_1--;
 	} 
     
-for(int i=0;i<Number.length();i++)
-{	
+    for(int i=0;i<Number.length();i++)
+    {	
     	if(spr_1==true)
 		{
-		break;
+			break;
 		}
-        if((int)tab[i]==77)
+        if(tab[i]=='M')
         {
-	z_numbers=6;
+			z_numbers=6;
             break;
         }
-        else if((int)tab[i]==66)
+        else if(tab[i]=='B')
         {
-	z_numbers=9;
+			z_numbers=9;
             break;
         }
-        else if( (int)tab[i]==84)
+        else if(tab[i]=='T')
         {
 			z_numbers=12;
             break;
         }
-        else if(( ((int)tab[i]==81)&&((int)tab[i+1]==97)))
+        else if((tab[i]=='Q')&&(tab[i+1]=='a'))
         {
-	z_numbers=15;
+			z_numbers=15;
             break;
         }
-        else if(( ((int)tab[i]==81)&&((int)tab[i+1]==105)))
+        else if((tab[i]=='Q')&&(tab[i+1]=='i'))
         {
-	z_numbers=18;
+			z_numbers=18;
             break;
         }
-        else if(( ((int)tab[i]==83)&&((int)tab[i+1]==120)))
+        else if((tab[i]=='S')&&(tab[i+1]=='x'))
         {
-	z_numbers=21;
+			z_numbers=21;
             break;
         }
-        else if(( ((int)tab[i]==83)&&((int)tab[i+1]==112)))
+        else if((tab[i]=='S')&&(tab[i+1]=='p'))
         {
-        z_numbers=24;
+            z_numbers=24;
             break;
         }
-        else if(( ((int)tab[i]==79)&&((int)tab[i+1]==99)))
+        else if((tab[i]=='O')&&(tab[i+1]=='c'))
         {
-	z_numbers=27;
+			z_numbers=27;
             break;
         }
- }
+    }
 	string score=str;
 	
- for (int j = 0; j < z_numbers-n_z; j++)
- {
+    for (int j = 0; j < z_numbers-n_z; j++)
+    {
     	if(spr_1==true)
 		{
 			break;
 		}
        score=score + "0";
- }
-if(spr_1!=true)
-{
-	cout<<score;
-}
-	
-    /*
-    M=77;
-    B=66;
-    T=84;
-    Qa=8197;
-    Qi=81105;
-    Sx=83120;
-    Sp=83112;
-    Oc=7999;
-    */
+    }
+    if(spr_1!=true)
+	{
+		cout<<score;
+	}
+    cout<<endl;
     
-  cout<<endl;
-    
-return 0;
+	return 0;
     
  };
 
-int main() 
-{
+int main() {
+
 	cout<<ConvertFromSymbolic("4M")<<endl;
 	cout<<ConvertFromSymbolic("54T")<<endl;
 	cout<<ConvertFromSymbolic("5.434B")<<endl;
- return 0;
+    return 0;
 };
