@@ -1,0 +1,153 @@
+#include <iostream>
+#include <string>
+
+
+using namespace std;
+
+class BigNumber
+{
+    public:
+        BigNumber(string Number)
+        {
+        this->Number_orgin = Number;
+        }
+        ~BigNumber(){};
+        void ConvertFromSymbolic(void);
+        string ReturnValue(void);
+    private:
+        string Number_orgin;
+        string str="";
+
+};
+
+int main()
+{
+	BigNumber firstObject("4M");
+	BigNumber secondObject("54B");
+	BigNumber thirdObject("5.434T");
+	BigNumber fourthObject("8.91Sp");
+
+	firstObject.ConvertFromSymbolic();
+	secondObject.ConvertFromSymbolic();
+	thirdObject.ConvertFromSymbolic();
+	fourthObject.ConvertFromSymbolic();
+
+	cout<<firstObject.ReturnValue() <<endl;
+	cout<<secondObject.ReturnValue()<<endl;
+	cout<<thirdObject.ReturnValue() <<endl;
+	cout<<fourthObject.ReturnValue() <<endl;
+
+}
+
+void BigNumber::ConvertFromSymbolic(void)
+{
+  int z_numbers;
+  string Number_c=Number_orgin;
+  char record;
+	int n_z=0;
+	bool helper=false;
+	bool spr_1=false;
+  int length=Number_c.length();
+  char tab[length];
+	int length_1=str.length();
+    for(int i=0;i<length;i++)
+    {
+
+        record=Number_c.at(i);
+        if(record=='.')
+        {
+			helper=true;
+		}
+		else
+        {
+            tab[i]=record;
+        }
+		if (isdigit( record ))
+		{
+			str = str + record;
+		}
+
+
+    }
+    int spr=str.length();
+
+	if((tab[spr] != 'M')&&(tab[spr] != 'T')&&(tab[spr] != 'B')&&((tab[spr] != 'a')||(tab[spr-1]!='Q'))&&((tab[spr] != 'i')||(tab[spr-1]!='Q'))&&((tab[spr] != 'x')||(tab[spr-1]!='S'))&&((tab[spr] != 'p')||(tab[spr-1]!='S'))&&((tab[spr] != 'c')||(tab[spr-1]!='O')))
+    {
+    	if(helper==true)
+		{
+			spr--;
+		}
+		else
+		{
+		spr_1=true;
+    	cout<<"Incorrect date !!!"<<endl;
+    	}
+	}
+
+	while(1<length_1)
+	{
+		n_z++;
+		length_1--;
+	}
+
+    for(int i=0;i<length;i++)
+    {
+    	if(spr_1==true)
+		{
+			break;
+		}
+        if(tab[i]=='M')
+        {
+			z_numbers=6;
+            break;
+        }
+        else if(tab[i]=='B')
+        {
+			z_numbers=9;
+            break;
+        }
+        else if(tab[i]=='T')
+        {
+			z_numbers=12;
+            break;
+        }
+        else if((tab[i]=='Q')&&(tab[i+1]=='a'))
+        {
+			z_numbers=15;
+            break;
+        }
+        else if((tab[i]=='Q')&&(tab[i+1]=='i'))
+        {
+			z_numbers=18;
+            break;
+        }
+        else if((tab[i]=='S')&&(tab[i+1]=='x'))
+        {
+			z_numbers=21;
+            break;
+        }
+        else if((tab[i]=='S')&&(tab[i+1]=='p'))
+        {
+            z_numbers=24;
+            break;
+        }
+        else if((tab[i]=='O')&&(tab[i+1]=='c'))
+        {
+			z_numbers=27;
+            break;
+        }
+    }
+
+    for (int j = 0; j < z_numbers-n_z; j++)
+    {
+    	if(spr_1==true)
+		  {
+			break;
+		  }
+      str=str + "0";
+    }
+}
+string BigNumber::ReturnValue(void)
+{
+	return str;
+}
