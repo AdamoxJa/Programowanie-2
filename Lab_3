@@ -1,0 +1,155 @@
+#include <iostream>
+#include <string>
+
+
+
+using namespace std;
+
+class Team
+{
+public:
+    Team(string name1, string name2, string name3, string name4, string name5)
+    {
+        this->tab[0]=name1;
+        this->tab[1]=name2;
+        this->tab[2]=name3;
+        this->tab[3]=name4;
+        this->tab[4]=name5;
+    }
+    ~Team(){};
+    void showteam();
+    Team(const Team &);
+private:
+    string tab[4];
+    string name1;
+    string name2;
+    string name3;
+    string name4;
+    string name5;
+    string team;
+
+};
+ void Team::showteam()
+ {
+     team=tab[0]+" "+tab[1]+" "+tab[2]+" "+tab[3]+" "+tab[4]+" ";
+     cout<<team<<endl;
+ }
+Team::Team(const Team &source)
+{
+    tab[0] = source.tab[0];
+	tab[1] = source.tab[1];
+	tab[2] = source.tab[2];
+	tab[3] = source.tab[3];
+	tab[4] = source.tab[4];
+}
+class Player
+{
+public:
+	Player(string name, string surname, string height,string skills, string skills_2)
+	{
+	    this->tab[0]=name;
+	    this->tab[1]=surname;
+	    this->tab[2]=height;
+	    this->tab[3]=skills;
+	    this->tab[4]=skills_2;
+
+	}
+	~Player(){};
+    void ShowPlayer();
+    string ReturnProperties();
+    string teamadd();
+    string ChangeProperties();
+
+    void showp();
+    Player(const Player &);
+
+
+private:
+  string name;
+  string tab[4];
+  string surname;
+  string height;
+  string skills_2;
+  string skills;
+  string Properties;
+  string players;
+  string name_c;
+
+
+
+};
+
+void Player::ShowPlayer()
+{
+
+    cout<<"Gracz to: "<<tab[0]<<" "<<tab[1]<<" o wzroscie: "<<tab[2]<<" cm"<<endl<<"oraz umiejetnosciach: "<<tab[3]<<" i "<<tab[4]<<endl;
+
+
+}
+
+string Player::ReturnProperties()
+{
+
+    Properties=tab[0]+" "+tab[1]+" "+tab[2]+" "+tab[3]+" "+tab[4];
+    return Properties;
+}
+
+string Player::teamadd()
+{
+    players=tab[0];
+    return players;
+}
+Player::Player(const Player &source)
+{
+    tab[0] = source.tab[0];
+	tab[1] = source.tab[1];
+	tab[2] = source.tab[2];
+	tab[3] = source.tab[3];
+	tab[4] = source.tab[4];
+}
+string Player::ChangeProperties()
+{
+    cout<<"Podaj nowe imie: "<<endl;
+    cin>>tab[0];
+    cout<<"Podaj nowe nazwisko: "<<endl;
+    cin>>tab[1];
+    cout<<"Podaj nowy wzrost: "<<endl;
+    cin>>tab[2];
+    cout<<"Podaj nowa umiejetnosc: "<<endl;
+    cin>>tab[3];
+    cout<<"Podaj druga nowa umiejetnosc: "<<endl;
+    cin>>tab[4];
+
+}
+
+int main()
+{
+
+    Player Jan("Jan","Kowalski","190","speed:80","driblling:90");
+    Player Tomasz("Tomasz","Nowak","162","speed:76","driblling:89");
+    Player Adam("Adam","Gawlik","154","speed:77","driblling:65");
+    Player Kamil("Kamil","Konca","121","speed:36","driblling:96");
+    Player Patryk("Patryk","Startu","178","speed:92","driblling:23");
+
+    Team Blask(Jan.teamadd(),Tomasz.teamadd(),Adam.teamadd(),Kamil.teamadd(),Patryk.teamadd());
+
+
+    Player Kacper("Kacper","Rusin","199","speed:80","driblling:68");
+    Player Michal("Michal","Lewandowski","187","speed:34","driblling:87");
+    Player Aleksander("Aleksander","Olejnik","157","speed:53","driblling:88");
+    Player Gerard("Gerard","Kowal","187","speed:76","driblling:94");
+    Player Piotr("Piotr","Gryska","198","speed:46","driblling:60");
+
+    Team Cien(Kacper.teamadd(),Michal.teamadd(),Aleksander.teamadd(),Gerard.teamadd(),Piotr.teamadd());
+
+    Team Cien_2(Cien);
+    Blask.showteam();
+    Cien.showteam();
+    Cien_2.showteam();
+    Player Jan1(Jan);
+    Jan.ChangeProperties();
+    Blask.showteam();
+    Cien.showteam();
+    Cien_2.showteam();
+
+}
