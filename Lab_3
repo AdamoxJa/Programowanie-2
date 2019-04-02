@@ -58,11 +58,6 @@ string Player::ReturnProperties()
     return Properties;
 }
 
-string Player::teamadd()
-{
-    players=tab[0];
-    return players;
-}
 Player::Player(const Player &source)
 {
     tab[0] = source.tab[0];
