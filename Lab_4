@@ -1,0 +1,310 @@
+#include <iostream>
+#include <string>
+#include <ctime>
+#include <istream>
+#include <fstream>
+#include <sstream>
+#include <time.h>
+#include <vector>
+
+
+
+using namespace std;
+
+
+class Player
+{
+public:
+    string tab[4];
+	Player(string name, string surname, string height,string skills, string skills_2)
+	{
+	    tab[0]=name;
+	    tab[1]=surname;
+	    tab[2]=height;
+	    tab[3]=skills;
+	    tab[4]=skills_2;
+
+	}
+	~Player(){};
+    void ShowPlayer();
+    Player(string data_string);
+    string ReturnProperties();
+    string ReturnP_F();
+    string teamadd();
+    string ChangeProperties();
+    string load_from_file();
+
+    void showp();
+    Player(const Player &);
+
+
+
+  string name;
+  string surname;
+  string height;
+  string skills_2;
+  string skills;
+  string Properties;
+  string players;
+  string name_c;
+  string date;
+  string date_p;
+
+
+};
+
+void Player::ShowPlayer()
+{
+
+    cout<<"Gracz to: "<<tab[0]<<" "<<tab[1]<<" o wzroscie: "<<tab[2]<<" cm"<<endl<<"oraz umiejetnosciach: "<<tab[3]<<" i "<<tab[4]<<endl;
+
+
+}
+
+string Player::ReturnProperties()
+{
+
+    Properties=tab[0]+" "+tab[1]+" "+tab[2]+" "+tab[3]+" "+tab[4];
+    return Properties;
+}
+
+string Player::ReturnP_F()
+{
+
+    Properties=tab[0]+" "+tab[1]+" "+tab[2]+" "+tab[3]+" "+tab[4];
+    return Properties;
+}
+
+Player::Player(const Player &source)
+{
+    tab[0] = source.tab[0];
+	tab[1] = source.tab[1];
+	tab[2] = source.tab[2];
+	tab[3] = source.tab[3];
+	tab[4] = source.tab[4];
+}
+string Player::ChangeProperties()
+{
+    cout<<"Podaj nowe imie: "<<endl;
+    cin>>tab[0];
+    cout<<"Podaj nowe nazwisko: "<<endl;
+    cin>>tab[1];
+    cout<<"Podaj nowy wzrost: "<<endl;
+    cin>>tab[2];
+    cout<<"Podaj nowa umiejetnosc: "<<endl;
+    cin>>tab[3];
+    cout<<"Podaj druga nowa umiejetnosc: "<<endl;
+    cin>>tab[4];
+
+}
+
+Player::Player(string date)
+{
+	stringstream sstream(date);
+	string date_p;
+	vector<string> date_p_list;
+
+	while (getline(sstream, date_p, ';'))
+	{
+		date_p_list.push_back(date_p);
+	}
+
+	if (date_p_list.size() == 5)
+	{
+		for (int i = 0; i < 5; i++)
+		{
+			this->tab[i] = date_p_list.at(i);
+		}
+	}
+}
+
+class Team
+{
+public:
+    Team(string name, Player* player,Player* player1,Player* player2,Player* player3,Player* player4)
+    {
+        team=name;
+        this->player=player;
+        this->player1=player1;
+        this->player2=player2;
+        this->player3=player3;
+        this->player4=player4;
+    }
+    Team(string name, string file_name);
+    void showteam();
+    Team(const Team &);
+    void saveToFile(void);
+    void ReturnP();
+    string ReturnP_F();
+
+    Player* player;
+    Player* player1;
+    Player* player2;
+    Player* player3;
+    Player* player4;
+    string team;
+    string input_string;
+
+
+};
+ void Team::showteam()
+ {
+     cout<<player->tab[0];
+     cout<<" ";
+     cout<<player1->tab[0];
+     cout<<" ";
+     cout<<player2->tab[0];
+     cout<<" ";
+     cout<<player3->tab[0];
+     cout<<" ";
+     cout<<player4->tab[0];
+     cout<<" ";
+     cout<<endl;
+ }
+Team::Team(const Team &source)
+{
+    team=source.team;
+    player = source.player;
+	player1 = source.player1;
+	player2 = source.player2;
+	player3 = source.player3;
+	player4 = source.player4;
+}
+
+void Team::ReturnP()
+{
+	cout << player->ReturnProperties();
+	cout << " ";
+	cout << this->player1->ReturnProperties();
+	cout << " ";
+	cout << this->player2->ReturnProperties();
+	cout << " ";
+	cout << this->player3->ReturnProperties();
+	cout << " ";
+	cout << this->player4->ReturnProperties();
+	cout << " ";
+	cout << endl;
+}
+
+string Team::ReturnP_F()
+{
+	stringstream date_P;
+
+	date_P << player->ReturnP_F();
+	date_P << endl;
+	date_P << this->player1->ReturnP_F();
+	date_P << endl;
+	date_P << this->player2->ReturnP_F();
+	date_P << endl;
+	date_P << this->player3->ReturnP_F();
+	date_P << endl;
+	date_P << this->player4->ReturnP_F();
+	date_P << endl;
+
+	return date_P.str();
+}
+
+Team::Team(string name, string file_name)
+{
+    this->team = name;
+
+	ifstream inputFile;
+	string lineAsString;
+
+	inputFile.open(file_name.c_str());
+	if (! inputFile . is_open () )
+    cout<<" Can 't read " ;
+    else
+    {
+		int i = 0;
+		while (i < 5 && getline(inputFile, lineAsString))
+		{
+			switch (i)
+			{
+			    inputFile>>lineAsString;
+			case 0:
+				this->player =  new Player(lineAsString);
+                break;
+			case 1:
+				this->player1 = new Player(lineAsString);
+				break;
+			case 2:
+				this->player2 = new Player(lineAsString);
+				break;
+			case 3:
+				this->player3 = new Player(lineAsString);
+				break;
+			case 4:
+				this->player4 = new Player(lineAsString);
+				break;
+			}
+			i++;
+		}
+		inputFile.close();
+    }
+}
+
+void Team::saveToFile()
+{
+
+    time_t t = time(0);
+	struct tm now;
+
+
+	stringstream filename_time;
+	filename_time << now.tm_hour << now.tm_min << now.tm_sec;
+
+	string filename = "druzyna_" + team + "_"+filename_time.str()+ ".txt";
+    ofstream outputFile(filename.c_str());
+	if (! outputFile . is_open () )
+    {
+         cout<<" Can 't write "+filename ;
+	}
+    else
+    {
+        outputFile << this->ReturnP_F();
+    }
+    outputFile.close();
+}
+
+
+
+int main()
+{
+
+    Player Jan("Jan","Kowalski","190","speed:80","driblling:90");
+    Player Tomasz("Tomasz","Nowak","162","speed:76","driblling:89");
+    Player Adam("Adam","Gawlik","154","speed:77","driblling:65");
+    Player Kamil("Kamil","Konca","121","speed:36","driblling:96");
+    Player Patryk("Patryk","Startu","178","speed:92","driblling:23");
+
+
+    Team Blask("Blask",&Jan,&Tomasz,&Adam,&Kamil,&Patryk);
+
+    Player Kacper("Kacper","Rusin","199","speed:80","driblling:68");
+    Player Michal("Michal","Lewandowski","187","speed:34","driblling:87");
+    Player Aleksander("Aleksander","Olejnik","157","speed:53","driblling:88");
+    Player Gerard("Gerard","Kowal","187","speed:76","driblling:94");
+    Player Piotr("Piotr","Gryska","198","speed:46","driblling:60");
+
+    Team Cien("Cien",&Kacper,&Michal,&Aleksander,&Gerard,&Piotr);
+
+    Team Mrok("Mrok","druzyna_4.txt");
+
+    Team Swiatlo(Cien);
+    Blask.showteam();
+    Cien.showteam();
+    Swiatlo.showteam();
+    Mrok.showteam();
+    Player Jan1(Jan);
+    //Jan.ChangeProperties();
+    Blask.showteam();
+    Cien.showteam();
+    Swiatlo.showteam();
+
+    Blask.saveToFile();
+    Cien.saveToFile();
+    Swiatlo.saveToFile();
+    Mrok.saveToFile();
+
+}
