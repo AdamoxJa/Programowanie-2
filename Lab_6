@@ -1,0 +1,249 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <cstdio>
+#include <ctime>
+#include <sstream>
+#include <istream>
+#include <fstream>
+#include <iomanip>
+
+using namespace std;
+
+class Matrix
+{
+public:
+
+	int i;
+	int j;
+	float **values;
+
+	Matrix(int x, int y);
+	Matrix(string);
+
+	float changeCell(int x, int y, float newValue);
+	string returnCell(int x, int y);
+	string returnRow(int y);
+	string returnColumn(int x);
+	string returnMatrix();
+
+	void addNumber(int number);
+	void transpose();
+	void save(string);
+};
+
+Matrix::Matrix(int x, int y)
+{
+	i = x;
+	j = y;
+
+	values = new float*[i];
+
+	for (int a = 0; a < i; a++)
+	{
+		values[a] = new float[j];
+	}
+
+	for (int a = 0; a < i; a++)
+	{
+		for (int b = 0; b < j; b++)
+		{
+			values[a][b] = 0;
+		}
+	}
+}
+
+float Matrix::changeCell(int x, int y, float newValue)
+{
+	values[x][y] = newValue;
+
+	return newValue;
+}
+
+string Matrix::returnCell(int x, int y)
+{
+	string cell_s = to_string(values[x][y]);
+	return cell_s;
+}
+
+string Matrix::returnRow(int x)
+{
+	string line;
+	for (int a = 0; a < j; a++)
+	{
+		line += returnCell(x, a);
+		line += "    ";
+	}
+	return line;
+}
+
+string Matrix::returnColumn(int y)
+{
+	string column;
+	for (int a = 0; a < i; a++)
+	{
+		column += returnCell(a, y);
+		column += ' ';
+	}
+	return column;
+}
+
+string Matrix::returnMatrix()
+{
+	string matrix;
+	for (int a = 0; a < i; a++)
+	{
+		matrix += returnRow(a);
+		matrix += ' ';
+	}
+	return matrix;
+}
+
+void Matrix::addNumber(int number)
+{
+	for (int a = 0; a < i; a++)
+	{
+		for (int b = 0; b < j; b++)
+		{
+			values[a][b] += number;
+		}
+	}
+}
+
+void Matrix::transpose()
+{
+	Matrix *temp = new Matrix(j, i);
+	for (int a = 0; a < j; a++)
+	{
+		for (int b = 0; b < i; b++)
+		{
+			temp->values[a][b] = values[b][a];
+		}
+	}
+	i = temp->i;
+	j = temp->j;
+	values = temp->values;
+	delete temp;
+}
+
+Matrix::Matrix(string file_name)
+{
+	ifstream file;
+	string line;
+	int rows = 0;
+
+	file.open(file_name.c_str(), ios::in);
+	while (!file.eof())
+	{
+		getline(file, line);
+		rows++;
+	}
+	file.close();
+
+	vector <float> first;
+	string temp = "";
+	float value;
+	float **temp_values;
+	temp_values = new float*[rows];
+	int help = 0;
+
+	file.open(file_name.c_str(), ios::in);
+	while (!file.eof())
+	{
+		getline(file, line);
+		for (int m = 0; line[m] != ';'; m++)
+		{
+			if (line[m] != ' ') temp += line[m];
+			else
+			{
+				istringstream iss(temp);
+				iss >> value;
+				first.push_back(value);
+				temp = "";
+			}
+		}
+
+		i = rows;
+
+		if (help == 0)
+		{
+			j = first.size();
+			for (int a = 0; a < i; a++)
+			{
+				temp_values[a] = new float[j];
+			}
+		}
+		for (int a = 0; a < j; a++)
+		{
+			temp_values[help][a] = first[a];
+		}
+		first.clear();
+		help++;
+	}
+	file.close();
+
+	values = new float*[i];
+	for (int a = 0; a < i; a++)
+	{
+		values[a] = new float[j];
+	}
+
+	for (int a = 0; a < i; a++)
+	{
+		for (int b = 0; b < j; b++)
+		{
+			values[a][b] = temp_values[a][b];
+		}
+	}
+	delete temp_values;
+}
+
+void Matrix::save(string filename)
+{
+	ofstream file1(filename.c_str());
+
+	for (int a = 0; a < i; a++)
+	{
+		for (int b = 0; b < j; b++)
+		{
+			file1 << values[a][b];
+			if (b < j - 1) file1 << " ";
+		}
+		file1 << " ;"; if (a < i - 1) file1 << endl;
+	}
+
+}
+
+int main()
+{
+
+	Matrix *matrix_1 = new Matrix("check.txt");
+	string name;
+
+	matrix_1->changeCell(7, 9, 1);
+	matrix_1->changeCell(6, 6, 4);
+	matrix_1->changeCell(9, 9, 6);
+
+	cout << matrix_1->returnCell(6, 6) <<endl;
+	cout << matrix_1->returnColumn(2) <<endl;
+	cout << matrix_1->returnRow(4) <<endl;
+	cout << matrix_1->returnMatrix() <<endl;
+
+	string filename = "macierz1_.txt";
+
+	matrix_1->save(filename);
+
+	Matrix *matrix_2 = new Matrix(filename);
+
+	matrix_2->transpose();
+
+	filename = "macierz2_.txt";
+	matrix_2->save(filename);
+
+	Matrix *matrix_3 = new Matrix(filename);
+
+	matrix_3->addNumber(2);
+
+	filename = "macierz3_.txt";
+	matrix_3->save(filename);
+}
